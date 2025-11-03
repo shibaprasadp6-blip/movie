@@ -10,7 +10,6 @@ const Header = () => {
     { name: "Home", href: "/" },
     { name: "Movies", href: "/movies" },
     { name: "TV Series", href: "/series" },
-    { name: "Top Rated", href: "/top-rated" },
   ];
 
   return (
@@ -64,13 +63,6 @@ const Header = () => {
 
             <Button variant="ghost" size="sm" className="sm:hidden">
               <Search className="w-5 h-5" />
-            </Button>
-
-            <Button variant="hero" size="sm" asChild>
-              <a href="/admin">
-                <Settings className="w-4 h-4" />
-                <span className="hidden sm:inline">Admin</span>
-              </a>
             </Button>
           </div>
         </div>

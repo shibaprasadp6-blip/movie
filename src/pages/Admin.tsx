@@ -51,6 +51,9 @@ const Admin = () => {
   const [loading, setLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [postType, setPostType] = useState<"movie" | "series" | null>(null);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   
   // Data states
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -111,10 +114,12 @@ const Admin = () => {
   };
 
   useEffect(() => {
-    fetchGenres();
-    fetchMovies();
-    fetchSeries();
-  }, []);
+    if (authenticated) {
+      fetchGenres();
+      fetchMovies();
+      fetchSeries();
+    }
+  }, [authenticated]);
 
   const stats = useMemo(() => [
     { title: "Total Movies", value: movies.length.toString(), icon: "🎬" },
@@ -347,6 +352,57 @@ const Admin = () => {
     const files = Array.from(e.target.files || []);
     setClipFiles(prev => [...prev, ...files]);
   };
+
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (username === "Faroff" && password === "Faroff123@") {
+      setAuthenticated(true);
+      toast({ title: "Success", description: "Logged in successfully." });
+    } else {
+      toast({ title: "Error", description: "Invalid credentials.", variant: "destructive" });
+    }
+  };
+
+  if (!authenticated) {
+    return (
+      <div className="flex min-h-screen bg-gradient-hero items-center justify-center">
+        <Card className="w-full max-w-sm bg-gradient-card border-border/50">
+          <CardHeader>
+            <CardTitle>Admin Login</CardTitle>
+            <CardDescription>Enter your credentials to access the dashboard.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  className="bg-muted/50 border-border/50"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="bg-muted/50 border-border/50"
+                />
+              </div>
+              <Button type="submit" className="w-full" variant="hero">
+                Login
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   const renderContent = () => {
     switch (activeTab) {
