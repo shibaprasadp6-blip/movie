@@ -14,7 +14,163 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      genres: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      media_clips: {
+        Row: {
+          clip_type: string
+          clip_url: string
+          created_at: string | null
+          id: string
+          movie_id: string | null
+          series_id: string | null
+        }
+        Insert: {
+          clip_type: string
+          clip_url: string
+          created_at?: string | null
+          id?: string
+          movie_id?: string | null
+          series_id?: string | null
+        }
+        Update: {
+          clip_type?: string
+          clip_url?: string
+          created_at?: string | null
+          id?: string
+          movie_id?: string | null
+          series_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "media_clips_movie_id_fkey"
+            columns: ["movie_id"]
+            isOneToOne: false
+            referencedRelation: "movies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "media_clips_series_id_fkey"
+            columns: ["series_id"]
+            isOneToOne: false
+            referencedRelation: "series"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      movies: {
+        Row: {
+          created_at: string | null
+          download_link: string | null
+          genre_id: string | null
+          id: string
+          poster_url: string | null
+          rating: number | null
+          status: string
+          title: string
+          updated_at: string | null
+          year: number
+        }
+        Insert: {
+          created_at?: string | null
+          download_link?: string | null
+          genre_id?: string | null
+          id?: string
+          poster_url?: string | null
+          rating?: number | null
+          status?: string
+          title: string
+          updated_at?: string | null
+          year: number
+        }
+        Update: {
+          created_at?: string | null
+          download_link?: string | null
+          genre_id?: string | null
+          id?: string
+          poster_url?: string | null
+          rating?: number | null
+          status?: string
+          title?: string
+          updated_at?: string | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "movies_genre_id_fkey"
+            columns: ["genre_id"]
+            isOneToOne: false
+            referencedRelation: "genres"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      series: {
+        Row: {
+          created_at: string | null
+          download_link: string | null
+          genre_id: string | null
+          id: string
+          poster_url: string | null
+          rating: number | null
+          seasons: number
+          status: string
+          title: string
+          updated_at: string | null
+          year: number
+        }
+        Insert: {
+          created_at?: string | null
+          download_link?: string | null
+          genre_id?: string | null
+          id?: string
+          poster_url?: string | null
+          rating?: number | null
+          seasons?: number
+          status?: string
+          title: string
+          updated_at?: string | null
+          year: number
+        }
+        Update: {
+          created_at?: string | null
+          download_link?: string | null
+          genre_id?: string | null
+          id?: string
+          poster_url?: string | null
+          rating?: number | null
+          seasons?: number
+          status?: string
+          title?: string
+          updated_at?: string | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "series_genre_id_fkey"
+            columns: ["genre_id"]
+            isOneToOne: false
+            referencedRelation: "genres"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
